@@ -1,7 +1,7 @@
 package com.jmdroid.prac_server.retrofit;
 
 
-import com.jmdroid.prac_server.dto.SignupDTO;
+import com.jmdroid.prac_server.network.reqmodel.ReqSignup;
 import com.jmdroid.prac_server.network.resmodel.ResBasic;
 
 import retrofit2.Call;
@@ -12,6 +12,6 @@ public interface RetrofitImpFactory {
 
     // 회원가입
     @POST("/jm_signup")
-    Call<ResBasic> NetSignup(@Body SignupDTO signupDTO);
+    Call<ResBasic> NetSignup(@Body ReqSignup reqSignup);
 
 }

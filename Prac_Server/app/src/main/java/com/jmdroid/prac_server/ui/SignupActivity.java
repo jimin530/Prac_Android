@@ -8,6 +8,8 @@ import android.widget.EditText;
 
 import com.jmdroid.prac_server.R;
 import com.jmdroid.prac_server.dto.SignupDTO;
+import com.jmdroid.prac_server.network.reqmodel.ReqHeader;
+import com.jmdroid.prac_server.network.reqmodel.ReqSignup;
 import com.jmdroid.prac_server.network.resmodel.ResBasic;
 import com.jmdroid.prac_server.retrofit.RetrofitGenterator;
 
@@ -32,16 +34,21 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onClickSignup(View view) {
+        ReqHeader reqHeader = new ReqHeader(
+                "Signup"
+        );
         SignupDTO signupDTO = new SignupDTO(
                 et_signup_id.getText().toString(),
                 et_signup_password.getText().toString(),
                 et_signup_name.getText().toString()
         );
-        callNetSignup(signupDTO);
+        ReqSignup reqSignup = new ReqSignup(reqHeader, signupDTO);
+
+        callNetSignup(reqSignup);
     }
 
-    public void callNetSignup(SignupDTO signupDTO) {
-        Call<ResBasic> NetSignup = RetrofitGenterator.getInstance().getRetrofitImpFactory().NetSignup(signupDTO);
+    public void callNetSignup(ReqSignup reqSignup) {
+        Call<ResBasic> NetSignup = RetrofitGenterator.getInstance().getRetrofitImpFactory().NetSignup(reqSignup);
         NetSignup.enqueue(new Callback<ResBasic>() {
             @Override
             public void onResponse(Call<ResBasic> call, Response<ResBasic> response) {
