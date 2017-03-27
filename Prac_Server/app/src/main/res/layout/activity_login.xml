@@ -19,8 +19,8 @@
         android:layout_gravity="center"
         android:layout_weight="0"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="ID" />
+        android:hint="ID"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/et_login_password"
@@ -38,15 +38,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="0"
+        android:onClick="onLogin"
         android:text="로그인" />
 
     <Button
-        android:onClick="onClickGoSignup"
         android:id="@+id/btn_go_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="0"
+        android:onClick="onClickGoSignup"
         android:text="회원가입" />
 
     <LinearLayout
