@@ -1,17 +1,17 @@
 package com.jmdroid.prac_server.ui;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.jmdroid.prac_server.R;
 import com.jmdroid.prac_server.accout.AccountMange;
-import com.jmdroid.prac_server.dto.LoginDTO;
+import com.jmdroid.prac_server.dto.ChangePasswordDTO;
+import com.jmdroid.prac_server.network.reqmodel.ReqChangePassword;
 import com.jmdroid.prac_server.network.reqmodel.ReqHeader;
-import com.jmdroid.prac_server.network.reqmodel.ReqLogin;
 import com.jmdroid.prac_server.network.resmodel.ResBasic;
 import com.jmdroid.prac_server.retrofit.RetrofitGenterator;
 
@@ -19,42 +19,37 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class ChangePasswordActivity extends AppCompatActivity {
 
-    EditText et_login_id;
-    EditText et_login_password;
+    EditText et_beforepassword;
+    EditText et_newpassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_change_password);
 
-        et_login_id = (EditText) findViewById(R.id.et_login_id);
-        et_login_password = (EditText) findViewById(R.id.et_login_password);
+        et_beforepassword = (EditText) findViewById(R.id.et_beforepassword);
+        et_newpassword = (EditText) findViewById(R.id.et_newpassword);
     }
 
-    public void onLogin(View view) {
+    public void onChangePassword(View view) {
         ReqHeader reqHeader = new ReqHeader(
-                "Login"
+                "ChagePassword"
         );
-        LoginDTO loginDTO = new LoginDTO(
-                et_login_id.getText().toString(),
-                et_login_password.getText().toString()
+        ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO(
+                AccountMange.getInstance().user_id,
+                et_beforepassword.getText().toString(),
+                et_newpassword.getText().toString()
         );
-        ReqLogin reqLogin = new ReqLogin(reqHeader, loginDTO);
+        ReqChangePassword reqChangePassword = new ReqChangePassword(reqHeader, changePasswordDTO);
 
-        callNetLogin(reqLogin);
+        callNetChangePassword(reqChangePassword);
     }
 
-    public void onClickGoSignup(View view) {
-        Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void callNetLogin(ReqLogin reqLogin) {
-        Call<ResBasic> NetLogin = RetrofitGenterator.getInstance().getRetrofitImpFactory().NetLogin(reqLogin);
-        NetLogin.enqueue(new Callback<ResBasic>() {
+    public void callNetChangePassword(ReqChangePassword reqChangePassword) {
+        Call<ResBasic> NetChangePassword = RetrofitGenterator.getInstance().getRetrofitImpFactory().NetChangePassword(reqChangePassword);
+        NetChangePassword.enqueue(new Callback<ResBasic>() {
             @Override
             public void onResponse(Call<ResBasic> call, Response<ResBasic> response) {
                 if (response.isSuccessful()) {
@@ -62,10 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                         // 통신 성공
                         Log.i("RES SUC", response.body().getMsg());
                         if (response.body().getMsg().contains("성공")) {
-                            AccountMange.getInstance().user_id = et_login_id.getText().toString();
-
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
+                            Toast.makeText(ChangePasswordActivity.this, "비밀번호 변경 완료", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     } else {
@@ -77,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("RES ERR", response.message().toString());
                 }
             }
+
             @Override
             public void onFailure(Call<ResBasic> call, Throwable t) {
                 // 통신 실패
