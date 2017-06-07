@@ -5,6 +5,7 @@ import com.jmdroid.prac_server.network.reqmodel.ReqChangePassword;
 import com.jmdroid.prac_server.network.reqmodel.ReqLogin;
 import com.jmdroid.prac_server.network.reqmodel.ReqSignup;
 import com.jmdroid.prac_server.network.resmodel.ResBasic;
+import com.jmdroid.prac_server.network.resmodel.ResMemberInfo;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -23,7 +24,7 @@ public interface RetrofitImpFactory {
 
     // 회원 조회
     @GET("/jm_memberinfo")
-    Call<ResBasic> NetMemberInfo();
+    Call<ResMemberInfo> NetMemberInfo();
 
     // 비밀번호 변경
     @POST("/jm_changepassword")

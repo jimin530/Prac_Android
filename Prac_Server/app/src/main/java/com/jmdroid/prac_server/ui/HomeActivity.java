@@ -1,14 +1,13 @@
 package com.jmdroid.prac_server.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.jmdroid.prac_server.R;
-import com.jmdroid.prac_server.network.resmodel.ResBasic;
+import com.jmdroid.prac_server.network.resmodel.ResMemberInfo;
 import com.jmdroid.prac_server.retrofit.RetrofitGenterator;
 
 import retrofit2.Call;
@@ -33,10 +32,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void callNetMemberInfo() {
-        Call<ResBasic> NetMemberInfo = RetrofitGenterator.getInstance().getRetrofitImpFactory().NetMemberInfo();
-        NetMemberInfo.enqueue(new Callback<ResBasic>() {
+        Call<ResMemberInfo> NetMemberInfo = RetrofitGenterator.getInstance().getRetrofitImpFactory().NetMemberInfo();
+        NetMemberInfo.enqueue(new Callback<ResMemberInfo>() {
             @Override
-            public void onResponse(Call<ResBasic> call, Response<ResBasic> response) {
+            public void onResponse(Call<ResMemberInfo> call, Response<ResMemberInfo> response) {
 
                 if (response.isSuccessful()) {
                     /*if (response.body() != null && response.body().toString() != null) {
@@ -44,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
                     } else {
                         Log.i("RESPONSE RESULT 1: ", response.message());
                     }*/
-                    Log.i("RESPONSE 확인 : ", response.toString());
+                    Log.i("RESPONSE 확인 : ", response.body().getBody().toString());
                 } else {
                     // 결과값 실패
                     Log.i("RES ERR", response.message().toString());
@@ -52,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResBasic> call, Throwable t) {
+            public void onFailure(Call<ResMemberInfo> call, Throwable t) {
                 // 통신 실패
                 Log.i("RES FAIL", t.getMessage().toString());
             }

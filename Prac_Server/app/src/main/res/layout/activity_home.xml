@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         android:layout_weight="0"
         android:onClick="onMemberInfo"
-        android:text="회원 조회" />
+        android:text="회원 전체 조회" />
 
     <Button
         android:id="@+id/btn_go_changepassword"
