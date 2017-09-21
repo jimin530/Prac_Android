@@ -5,8 +5,11 @@ import android.util.Log;
 
 import com.jmdroid.prac_retrofit2.model.InfoModel;
 import com.jmdroid.prac_retrofit2.resmodel.ResInfo;
+import com.jmdroid.prac_retrofit2.resmodel.ResSample;
 import com.jmdroid.prac_retrofit2.retrofit.RetrofitGenterator;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,10 +24,12 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         // simple
-        callSimpleList();
+        // callSimpleList();
 
         // ordinary
-        callList();
+        // callList();
+
+        callSample();
     }
 
     // simple
@@ -56,6 +61,32 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResInfo> call, Throwable t) {
+                Log.i("ORDINARY RES FAIL", t.toString());
+            }
+        });
+    }
+
+    public void callSample() {
+        String serviceKey = "gXBXUzv%2FaP2AnP29hzBPRAYxFL28gTrw%2BWeq9BksUPMBGn4e1Q5yOtK1AtOIufpUCgLTJY0RLWSwMTp96232mg%3D%3D";
+        try {
+            serviceKey = URLDecoder.decode(serviceKey, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        Call<ResSample> call = RetrofitGenterator.getInstance().getRetrofitImpFactory().loadAnswer(serviceKey,"60","127","20170921","1200","json");
+
+        call.enqueue(new Callback<ResSample>() {
+            @Override
+            public void onResponse(Call<ResSample> call, Response<ResSample> response) {
+                Log.i("ORDINARY RES SUC", response.raw()+"");
+                Log.i("ORDINARY RES SUC", response.body().getResponse().getHeader().getResultMsg()+"");
+                //Log.i("ORDINARY RES SUC", response.body().getAppList().toString());
+                //Log.i("ORDINARY RES SUC", response.body().getAppList().get(0).getUrl());
+            }
+
+            @Override
+            public void onFailure(Call<ResSample> call, Throwable t) {
                 Log.i("ORDINARY RES FAIL", t.toString());
             }
         });

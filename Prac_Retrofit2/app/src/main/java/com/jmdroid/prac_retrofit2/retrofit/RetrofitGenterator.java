@@ -25,7 +25,8 @@ public class RetrofitGenterator {
     // Setting Retrofit2
 
     Retrofit retrofit;
-    private static final String BASE_URL = "http://ec2-52-26-144-160.us-west-2.compute.amazonaws.com:3000";
+    //private static final String BASE_URL = "http://ec2-52-26-144-160.us-west-2.compute.amazonaws.com:3000";
+    private static final String BASE_URL = "http://newsky2.kma.go.kr";
 
     OkHttpClient client;
 
